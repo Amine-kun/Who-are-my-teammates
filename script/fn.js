@@ -7,8 +7,6 @@ const initAuth = parseFile.getSession();
 
 const app = express();
 
-const API_KEY = 'RGAPI-b7183399-8f40-4fa5-8037-5500ef88e734';
-
 let players;
 let playersData = [];
 let id = ['a','b','c','d','e'];
@@ -35,28 +33,36 @@ const getChampSelectPlayers = async ()=>{
 	return players.length > 0 ? true : false;
 }
 
-const fetchSinglePlayer = async ()=>{
+const fetchSinglePlayer = async (API_KEY)=>{
+	console.log(API_KEY)
 
+	//looping through all the players
 	for (let i =0 ; i < players.length ; i++){
 		let ranked =[];
 		let game = 0;
 
+		//player uuid
 		const res = await axios.get(`https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${players[i].name}?api_key=${API_KEY}`)
+
+		//all player ranked matches (flex and soloq)
 		const matches = await axios.get(`https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${res.data.puuid}/ids?api_key=${API_KEY}&type=ranked`)
 		
 		if(matches.data.length > 0){
+
+			//looping through all games and fetching single game data
 			while(game < 8){
-				console.log(matches.data[game])
 			    
 				if(matches.data[game] !== undefined){
 					const matchData = await axios.get(`https://europe.api.riotgames.com/lol/match/v5/matches/${matches.data[game]}?api_key=${API_KEY}`);
 					const data = matchData.data.info
 					const duration = (data.gameDuration/60).toFixed(2)
 
+					//only soloq games are passed to the final result
 					if(data.queueId === 420){
 						let target = data.participants.filter((player)=>{
 							return player.summonerName === players[i].name
 						})
+						console.log(target[0])
 						ranked.push({id:id[i],
 									 ranked:'Solo/Duo',
 									 gameTime:duration, 
@@ -84,7 +90,7 @@ const fetchSinglePlayer = async ()=>{
 		} else{
 			ranked.push({id:i,
 						summoner:players[i].name,
-				     ranked:false})
+				     	ranked:false})
 		}
 
 		playersData.push(ranked);
@@ -94,13 +100,14 @@ const fetchSinglePlayer = async ()=>{
 }
 
 app.get('/getPlayers', async(req, res)=>{
+	const {key} = req.query;
+
 	const teammates = await getChampSelectPlayers();
 	if(teammates){
-		const playersInfo = await fetchSinglePlayer();
-		console.log(playersData);
+		const playersInfo = await fetchSinglePlayer(key);
 		res.json(playersData);
 	} else {
-		res.json('You have to join a game first');
+		res.status(400).json('err_1');
 	}
 })
 

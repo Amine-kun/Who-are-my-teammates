@@ -9,6 +9,7 @@ body{
   background-color:#232940;
   color:#13b1d9;
   overflow:hidden;
+  position: relative;
 }
 
 .text{
@@ -26,6 +27,10 @@ body{
   justify-content:center;
   align-items:center;
   flex-direction:row;
+  border: 1px solid #13b1d9;
+  border-radius: 3px;
+  padding: 0px 20px;
+  margin: 10px 0;
 }
 .card{
    color: white !important;
@@ -76,10 +81,40 @@ body{
    background-color: #13b1d9;
    border:2px solid #13b1d9;
    border-radius:3px ;
-   padding: 5px 0;
+   padding: 10px 0;
    cursor: pointer;
    transition: 300ms ease-in-out;
 }
+.reset{
+   width: 150px;
+   background-color: transparent;
+   border:2px solid #13b1d9;
+   border-radius:3px ;
+   padding: 10px 0;
+   cursor: pointer;
+   transition: 300ms ease-in-out;
+   color: white;
+}
 .start:hover{
    box-shadow: 0px 0px 5px #13b1d9;
+}
+.inpt{
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   gap:10px;
+   margin-bottom: 40px;
+}
+.href{
+   text-decoration: none;
+   color: #13b1d9;
+}
+
+input{
+   background-color: transparent;
+   border: 1px solid #13b1d9;
+   border-radius: 3px;
+   color: white;
+   padding: 10px;
 }

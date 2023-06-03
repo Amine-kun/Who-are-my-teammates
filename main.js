@@ -16,7 +16,6 @@ const createWindow =()=>{
    	autoHideMenuBar: true,
     })
     win.loadFile('main.html')
-    win.hide()
     win.on('minimize', function (event) {
         event.preventDefault()
         win.hide()
