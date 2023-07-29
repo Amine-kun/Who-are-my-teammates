@@ -17,28 +17,35 @@ body{
 }
 .name{
    background-color: #13b1d9;
-   padding: 3px 30px;
+   padding: 3px 10px;
    margin-bottom:10px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
    text-align: center;
+   height: 50px;
 }
 
 .mid{
    display:flex;
   justify-content:center;
-  align-items:center;
+  align-items:flex-start;
   flex-direction:row;
   border: 1px solid #13b1d9;
   border-radius: 3px;
   padding: 0px 20px;
   margin: 10px 0;
+  gap:10px;
 }
 .card{
    color: white !important;
    border: 2px solid #13b1d9;
    padding: 0px 0px 15px 0px;
    border-radius: 5px;
-   width: 150px;
-   margin-left: 10px;
+   width: 205px;
+   margin-top: 10px;
+    margin-bottom: 10px;
+    height: 340px;
 }
 .past_game{
    display: flex;

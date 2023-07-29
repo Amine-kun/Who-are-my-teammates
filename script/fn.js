@@ -34,13 +34,12 @@ const getChampSelectPlayers = async ()=>{
 }
 
 const fetchSinglePlayer = async (API_KEY)=>{
-	console.log(API_KEY)
 
 	//looping through all the players
 	for (let i =0 ; i < players.length ; i++){
 		let ranked =[];
 		let game = 0;
-
+		
 		//player uuid
 		const res = await axios.get(`https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${players[i].name}?api_key=${API_KEY}`)
 
@@ -62,7 +61,7 @@ const fetchSinglePlayer = async (API_KEY)=>{
 						let target = data.participants.filter((player)=>{
 							return player.summonerName === players[i].name
 						})
-						console.log(target[0])
+						
 						ranked.push({id:id[i],
 									 ranked:'Solo/Duo',
 									 gameTime:duration, 
@@ -76,7 +75,7 @@ const fetchSinglePlayer = async (API_KEY)=>{
 					}
 
 					if (game === 7 && ranked.length === 0){
-						ranked.push({id:i,
+						ranked.push({id:id[i],
 									summoner:players[i].name,
 				     				 ranked:false})
 					}
@@ -84,11 +83,16 @@ const fetchSinglePlayer = async (API_KEY)=>{
 					game++;
 				} else {
 					game = 8;
+					if(game === 0 || ranked.length === 0){
+						ranked.push({id:id[i],
+									summoner:players[i].name,
+				     				 ranked:false})
+					}
 				}
 			}
 			
 		} else{
-			ranked.push({id:i,
+			ranked.push({id:id[i],
 						summoner:players[i].name,
 				     	ranked:false})
 		}

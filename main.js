@@ -6,11 +6,11 @@ const script = fork(`${__dirname}/script/fn.js`)
 const createWindow =()=>{
     let tray = new Tray(path.join(__dirname,'./assets/icon.png'))
     const win = new BrowserWindow({
-	width:1024,
-	height:620,
+	width:1300,
+	height:750,
 	icon: __dirname + '/assets/logo.ico',
    	webPreferences : {
-	   preload: path.join(__dirname, 'preload.js') 
+	   preload: path.join(__dirname, 'preload.js')
 	},
 	resizable:false,
    	autoHideMenuBar: true,
@@ -18,23 +18,23 @@ const createWindow =()=>{
     win.loadFile('main.html')
     win.on('minimize', function (event) {
         event.preventDefault()
-        win.hide()
+        // win.hide()
     })
    
-    let contextMenu = Menu.buildFromTemplate([
-        {
-            label: 'Show App', click: function () {
-                win.show()
-            }
-        },
-        {
-            label: 'Quit', click: function () {
-                app.isQuiting = true
-                app.quit()
-            }
-        }
-    ])
-    tray.setContextMenu(contextMenu)
+    // let contextMenu = Menu.buildFromTemplate([
+    //     {
+    //         label: 'Show App', click: function () {
+    //             win.show()
+    //         }
+    //     },
+    //     {
+    //         label: 'Quit', click: function () {
+    //             app.isQuiting = true
+    //             app.quit()
+    //         }
+    //     }
+    // ])
+    // tray.setContextMenu(contextMenu)
 
 }
 
