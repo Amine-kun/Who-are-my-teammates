@@ -44,7 +44,7 @@ const fetchSinglePlayer = async (API_KEY)=>{
 		const res = await axios.get(`https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${players[i].name}?api_key=${API_KEY}`)
 
 		//all player ranked matches (flex and soloq)
-		const matches = await axios.get(`https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${res.data.puuid}/ids?api_key=${API_KEY}&type=ranked`)
+		const matches = await axios.get(`https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${res.data.puuid}/ids?api_key=${API_KEY}&queue=420&start=0&count=20`);
 		
 		if(matches.data.length > 0){
 
