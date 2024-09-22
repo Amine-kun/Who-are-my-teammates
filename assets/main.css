@@ -2,89 +2,36 @@ body{
   height:100vh;
   width:100vw;
   display:flex;
-  justify-content:center;
+  justify-content:flex-start;
   align-items:center;
-  flex-direction:column;
-  gap:5px;
   background-color:#232940;
   color:#13b1d9;
   overflow:hidden;
   position: relative;
+  gap: 5px;
 }
 
-.text{
-   margin:0;
-}
-.name{
-   background-color: #13b1d9;
-   padding: 3px 10px;
-   margin-bottom:10px;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   text-align: center;
-   height: 50px;
+::-webkit-scrollbar {
+  width: 8px;
+  display: none;
 }
 
-.mid{
-   display:flex;
-  justify-content:center;
-  align-items:flex-start;
-  flex-direction:row;
-  border: 1px solid #13b1d9;
-  border-radius: 3px;
-  padding: 0px 20px;
-  margin: 10px 0;
-  gap:10px;
-}
-.card{
-   color: white !important;
-   border: 2px solid #13b1d9;
-   padding: 0px 0px 15px 0px;
-   border-radius: 5px;
-   width: 205px;
-   margin-top: 10px;
-    margin-bottom: 10px;
-    height: 340px;
-}
-.past_game{
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   flex-direction: row;
-   gap: 20px;
-   padding: 2px 0px;
-   width: 100%;
-}
-.win{
-      background-color: #00800052;
-      border-top: 2px solid green;
-      border-bottom: 2px solid green;
+::-webkit-scrollbar-track {
+  background: white;
+  opacity: 0.7;
 }
 
-.lose{
-      background-color: #db3d3d6b;
-      border-top: 2px solid red;
-      border-bottom: 2px solid red;
+::-webkit-scrollbar-thumb {
+  background: #13b1d9;
+  border-radius: 15px;
 }
 
-.ff{
-      background-color:  #80808070;
-      border-top: 2px solid grey;
-      border-bottom: 2px solid grey;   
-}
-
-.games{
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   flex-direction: column;
-   gap: 10px;
-   width: 100%;
+::-webkit-scrollbar-thumb:hover {
+  background: #13b1d9
 }
 
 .start{
-   width: 150px;
+   width: 170px;
    background-color: #13b1d9;
    border:2px solid #13b1d9;
    border-radius:3px ;
@@ -92,8 +39,8 @@ body{
    cursor: pointer;
    transition: 300ms ease-in-out;
 }
-.reset{
-   width: 150px;
+.stop{
+   width: 170px;
    background-color: transparent;
    border:2px solid #13b1d9;
    border-radius:3px ;
@@ -105,23 +52,261 @@ body{
 .start:hover{
    box-shadow: 0px 0px 5px #13b1d9;
 }
-.inpt{
-   display: flex;
-   flex-direction: column;
-   justify-content: center;
-   align-items: center;
-   gap:10px;
-   margin-bottom: 40px;
-}
-.href{
-   text-decoration: none;
-   color: #13b1d9;
+
+.save{
+   width: 100%;
+   background-color: #13b1d9;
+   border:2px solid #13b1d9;
+   border-radius:3px ;
+   padding: 10px 0;
+   cursor: pointer;
+   transition: 300ms ease-in-out;
+   margin-top: 15px;
 }
 
-input{
-   background-color: transparent;
-   border: 1px solid #13b1d9;
-   border-radius: 3px;
+.save:hover{
+   box-shadow: 0px 0px 5px #13b1d9;
+}
+
+.app_name > p{ 
+   font-size: 1.5rem;
+   font-weight: bold;
+}
+
+.inputs{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   margin-bottom: 30px;
+   gap: 15px;
+}
+
+.label_input{
+   border:  1px solid #13b1d9;
+   border-radius: 10px;
+   padding: 40px 60px;
+   cursor: pointer;
+   transition: 300ms ease-in-out;
+   position: relative;
+}
+.label_input:hover{
+   box-shadow: 0px 0px 5px #13b1d9;
+}
+
+.title{
+   position: absolute;
+   top: -30px;
+   left: 50%;
+   transform: translateX(-50%);
+   background-color:  #13b1d9;
+   padding: 3px 20px;
+   border-radius: 100px;
    color: white;
+}
+
+.isUploaded{
+   height: auto;
+   width: 20px;
+   right: -5px;
+   bottom: -10px;
+   position: absolute;
+}
+
+.input-file-first{
+   opacity: none;
+   width: 0;
+   height: 0;
+}
+
+.folder{
+   height: auto;
+   width: 40px;
+   margin: -8px -4px -12px 0;
+}
+.title_app{
+   text-align: center;
+}
+.logger{
+   margin-top: 20px;
+   border-radius: 10px;
+   border:  1px dashed; #13b1d9;
+   width: 320px;
    padding: 10px;
+   min-height: 300px;
+/*   max-height: 350px;*/
+/*   height: 100%;*/
+   display: flex;
+   justify-content: flex-start;
+   align-items: flex-start;
+   flex-direction: column;
+   overflow-x: hidden;
+   overflow-y: auto;
+   gap: 8px;
+}
+
+.logger > h3{
+   margin: 0;
+   text-align: center;
+   width: 100%;
+   border-bottom:  1px dashed; #13b1d9;
+   padding-bottom: 10px;
+}
+
+.logger > h4{
+   margin: 0;
+}
+
+.full_btn{
+   width: 345px;
+   background-color: transparent;
+   border:2px solid #13b1d9;
+   border-radius:3px ;
+   padding: 10px 0;
+   cursor: pointer;
+   transition: 300ms ease-in-out;
+   color: white;
+}
+
+.side_bar{
+   width: 13%;
+   display: flex;
+   justify-content: flex-start;
+   align-items: center;
+   flex-direction: column;
+   gap: 20px;
+   padding: 50px 5px;
+   height: 100%;
+}
+
+.icon{
+   height: auto;
+   width: 50px;
+}
+
+
+.content{
+   width: 85%;
+   display: flex;
+   justify-content: flex-start;
+   align-items: center;
+   flex-direction: column;
+   height: 100%;
+   gap: 5px;
+}
+
+.bar{
+   margin-bottom: 10px;
+   margin-top: 12px;
+   height: 1px;
+   width: 70%;
+   background-color: #13b1d9;
+}
+
+.settings_icon{
+   height: auto;
+   width: 30px;
+}
+
+.tool_icon{
+   height: auto;
+   wdith: 25px;
+}
+
+.logo_app{
+   podding-top: 50px;
+}
+
+.settings_tab{
+   margin-top: 470px;
+}
+
+.tab{
+   cursor: pointer;
+   transition: 300ms ease-in-out;
+}
+
+.tab:hover{
+   box-shadow: 0px 0px 5px #13b1d9;
+}
+
+.active_tab{
+   background-color: #13b1d9;
+   padding: 9px 12px 7px 12px;
+   border-radius: 7px;
+}
+
+.modal{
+   height: 100vh;
+   width: 100vw;
+   position: absolute;
+   top: -10px;
+   left: -10px;
+   background-color: #000000ba;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   padding: 15px;
+   z-index: -1;
+   opacity: 0;
+   transition: 300ms ease-in-out;
+}
+
+.modain_content{
+   color: white;
+   background-color: #232940;
+   padding: 15px;
+   border-radius: 5px;
+   width: 70%;
+   display: flex;
+   justify-content: flex-start;
+   align-items: center;
+   flex-direction: column;
+}
+
+.modal_show{
+   z-index: 1;
+   opacity: 1;
+}
+
+.remove_icon{
+   height: auto;
+   width: 20px;
+   cursor: pointer;
+   margin-left: auto;
+}
+.headers{
+   display: flex;
+   width: 100%;
+}
+
+.search{
+   gap: 10px;
+   width: 90%;
+   padding: 4px 15px;
+   border-radius: 5px;
+   background-color: white;
+   padding: 15px;
+   margin-top: 15px;
+}
+.input_text {
+   width: 137px;
+}
+.search-input{
+   padding: 2px 2px;
+   background-color: white;
+   border: none;
+   color: black;
+   outline: none;
+   width: 100%;
+}
+
+.full-input{
+   width: 100%
+}
+
+.full_w{
+   width: 225px;
+   justify-content: center ;
+   display: flex;
+   margin-top: 15px
 }

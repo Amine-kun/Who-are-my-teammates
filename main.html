@@ -3,25 +3,50 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self'">
+    <meta http-equiv="Content-Security-Policy" content="default-src * self blob: data: gap:; style-src * self 'unsafe-inline' blob: data: gap:; script-src * 'self' 'unsafe-eval' 'unsafe-inline' blob: data: gap:; object-src * 'self' blob: data: gap:; img-src * self 'unsafe-inline' blob: data: gap:; connect-src self * 'unsafe-inline' blob: data: gap:; frame-src * self blob: data: gap:;">
     <title>Who are my teammates !</title>
     <link rel="stylesheet" type="text/css" href="./assets/main.css">
   </head>
   <body class="app-flex">
-    <div class="inpt">
-        <p>Please generate a riot api and past it here for the app to work.</p>
-        <a class="href" target="_blank" href="https://developer.riotgames.com/">you can get it from here.</a>
-        <input class="api" type="text" placeholder="Your riot api." />
+
+    <div class="side_bar">
+        <img src="https://cdn-icons-png.flaticon.com/512/12208/12208150.png" class="logo_app icon" />
+        <div class="bar"></div>
+        <span id="telegram" class="tab">
+          <img src="./assets/icons/telegram.png" class="tool_icon" />
+        </span>
+        <span id="insta" class="tab active_tab">
+          <img src="./assets/icons/insta.png" class="tool_icon" />
+        </span>
+        <!-- <span class="tab settings_tab active_tab">
+          <img src="./assets/icons/setting_icon.png" class="settings_icon" />
+        </span> -->
     </div>
-    <div class="mid">	
-      <p>Players data here</p>
-      <!-- cards -->
+
+    <div class="content"> 
+
+      
 
     </div>
-     <div>
-        <button class="start">Check players...</button>
-        <button class="reset">reset</button>
-     </div>
-    <script type="text/javascript" src="./assets/main.js"></script>
+    <div class="modal">
+        <div class="modain_content">
+            <span class="headers">
+                <img src="https://www.iconsdb.com/icons/preview/white/delete-2-xxl.png" class="remove_icon"/>
+            </span>
+            <span class="search">
+              <input type="Input" placeholder="Your Message" class="search-input message" />
+            </span>
+            <span class="search">
+              <input type="number" min="1" placeholder="Number of messages per Account" class="search-input number" />
+            </span>
+
+            <button class="save">Save</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+    <script type="text/javascript" src="./assets/js/main.js"></script>
+    <script type="text/javascript" src="./assets/js/ui.js"></script>
   </body>
 </html>

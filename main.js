@@ -1,13 +1,12 @@
 const {app, Menu, Tray, BrowserWindow} = require('electron');
 const path = require('path');
 const {fork} = require('child_process');
-const script = fork(`${__dirname}/script/fn.js`) 
+const script = fork(`${__dirname}/script/server.js`) 
 
 const createWindow =()=>{
-    let tray = new Tray(path.join(__dirname,'./assets/icon.png'))
     const win = new BrowserWindow({
-	width:1300,
-	height:750,
+	width:500,
+	height:790,
 	icon: __dirname + '/assets/logo.ico',
    	webPreferences : {
 	   preload: path.join(__dirname, 'preload.js')
@@ -18,24 +17,7 @@ const createWindow =()=>{
     win.loadFile('main.html')
     win.on('minimize', function (event) {
         event.preventDefault()
-        // win.hide()
     })
-   
-    // let contextMenu = Menu.buildFromTemplate([
-    //     {
-    //         label: 'Show App', click: function () {
-    //             win.show()
-    //         }
-    //     },
-    //     {
-    //         label: 'Quit', click: function () {
-    //             app.isQuiting = true
-    //             app.quit()
-    //         }
-    //     }
-    // ])
-    // tray.setContextMenu(contextMenu)
-
 }
 
 app.whenReady().then(() => {

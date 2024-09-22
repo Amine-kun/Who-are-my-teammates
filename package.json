@@ -1,7 +1,7 @@
 {
-  "name": "wamt",
+  "name": "InstaBot",
   "version": "1.0.0",
-  "description": "Champ select viewer - who are my teammates",
+  "description": "Follow - Message Instagram Bot",
   "icon": "./assets/logo.ico",
   "main": "main.js",
   "scripts": {
@@ -11,7 +11,8 @@
     "make": "electron-forge make"
   },
   "build": {
-    "appId": "squid",
+    "appId": "InstaBot",
+    "asar": false,
     "win": {
       "target": [
         "nsis"
@@ -21,7 +22,7 @@
     "nsis": {
       "installerIcon": "assets/logo.ico",
       "uninstallerIcon": "assets/logo.ico",
-      "uninstallDisplayName": "wamt",
+      "uninstallDisplayName": "InstaBot",
       "oneClick": false,
       "allowToChangeInstallationDirectory": true
     }
@@ -38,8 +39,18 @@
     "electron-builder": "^23.6.0"
   },
   "dependencies": {
+    "@tensorflow-models/mobilenet": "^2.1.1",
+    "@tensorflow/tfjs": "^4.20.0",
     "axios": "^1.3.4",
+    "body-parser": "^1.20.2",
     "electron-squirrel-startup": "^1.0.0",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "node-fetch": "^2.6.12",
+    "openai": "^4.56.0",
+    "ps-list": "^8.1.1",
+    "selenium-webdriver": "^4.15.0",
+    "sharp": "^0.33.5",
+    "ws": "^8.14.2",
+    "xlsx": "^0.18.5"
   }
 }
