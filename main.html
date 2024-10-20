@@ -12,15 +12,12 @@
     <div class="side_bar">
         <img src="https://cdn-icons-png.flaticon.com/512/12208/12208150.png" class="logo_app icon" />
         <div class="bar"></div>
-        <span id="telegram" class="tab">
+        <span id="telegram" class="tab active_tab">
           <img src="./assets/icons/telegram.png" class="tool_icon" />
-        </span>
-        <span id="insta" class="tab active_tab">
-          <img src="./assets/icons/insta.png" class="tool_icon" />
-        </span>
-        <!-- <span class="tab settings_tab active_tab">
+        </span>      
+        <span class="settings_tab">
           <img src="./assets/icons/setting_icon.png" class="settings_icon" />
-        </span> -->
+        </span>
     </div>
 
     <div class="content"> 
@@ -34,10 +31,16 @@
                 <img src="https://www.iconsdb.com/icons/preview/white/delete-2-xxl.png" class="remove_icon"/>
             </span>
             <span class="search">
-              <input type="Input" placeholder="Your Message" class="search-input message" />
+              <input type="Input" placeholder="Your API-KEY" class="search-input key" />
             </span>
             <span class="search">
-              <input type="number" min="1" placeholder="Number of messages per Account" class="search-input number" />
+              <input type="Input" placeholder="Your group id" class="search-input group" />
+            </span>
+            <span class="search">
+              <input type="number" min="1" placeholder="Scrolls by pixel" class="search-input scrolls_by_pixel" />
+            </span>
+            <span class="search">
+              <input type="number" min="1" placeholder="Time between posts" class="search-input time" />
             </span>
 
             <button class="save">Save</button>

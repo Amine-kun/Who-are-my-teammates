@@ -217,7 +217,12 @@ body{
 }
 
 .settings_tab{
-   margin-top: 470px;
+   margin-top: 500px;
+   background-color: #13b1d9;
+   padding: 9px 12px 7px 12px;
+   border-radius: 7px;
+   cursor: pointer;
+   transition: 300ms ease-in-out;
 }
 
 .tab{
@@ -309,4 +314,20 @@ body{
    justify-content: center ;
    display: flex;
    margin-top: 15px
+}
+
+.flex{
+   display: flex
+}
+
+.flex-row{
+   flex-direction: row
+}
+
+.abs-center{
+   justify-content: center;
+   align-items: center
+}
+.margin_none{
+   margin:0;
 }

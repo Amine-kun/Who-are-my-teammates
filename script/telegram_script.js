@@ -1,21 +1,19 @@
 const {By, Key, until} = require('selenium-webdriver');
+const {create_post} = require('./functions/createPost');
+const {sleep, get_settings_telegram} = require('./functions/helpers');
 const fs = require('fs');
 
 let BREAK_VALUE = 99999999999999999999999;
 let LOOP = 1;
 let driver = null;
 
-const sleep = (ms) => {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 const print = (text, headers) => {
-	if(headers){
-		ws.send("==========================================");
-		ws.send(text);
-		ws.send("==========================================");
-	}
-	return ws.send(text);
+    if(headers){
+        ws.send("==========================================");
+        ws.send(text);
+        ws.send("==========================================");
+    }
+    return ws.send(text);
 }
 
 const containsKeywords = (str, keywords) => {
@@ -37,9 +35,34 @@ const containsKeywords = (str, keywords) => {
     return false;
 }
 
+const get_short_link = async (url) => {
+    try{
+        await sleep(1000);
+
+        let get_btn_text =  await driver.executeScript(`return document.querySelector('[title="Text"]');`);
+        await get_btn_text.click();
+
+        await sleep(1000);
+
+        let get_link = await driver.wait(until.elementLocated(By.id('amzn-ss-text-shortlink-textarea')), 2000);
+
+        await sleep(1000);
+
+        let short_url = await get_link?.getText() || false;
+
+        return short_url
+
+    } catch(e){
+        console.log('erro at url', e)
+        return false
+    }
+}
+
 const get_data = async (url) => {
   let state = false;
   let title = "";
+  let image_url = "";
+  let type = "---";
 
   try {
 
@@ -50,10 +73,16 @@ const get_data = async (url) => {
     let get_title =  await driver.executeScript("return document.getElementById('productTitle');");
     title = await get_title?.getText() || "none";
 
-    let precentageElement =  await driver.executeScript("return document.querySelector('savingsPercentage');");
+    let get_image = await driver.executeScript("return document.getElementById('landingImage');");
+    image_url = await get_image.getAttribute('src');
+
+    let precentageElement =  await driver.wait(until.elementLocated(By.className('savingsPercentage')), 2000);
     
-    // let precentageValue = await precentageElement?.getText() || "none";
-    state = true;
+    if(precentageElement){
+        state = true;
+
+        type = await precentageElement?.getText() || "discount";
+    }
 
   } catch (error) {
 
@@ -67,7 +96,11 @@ const get_data = async (url) => {
     try{
 
         let precentageElement =  await driver.wait(until.elementLocated(By.className('newCouponBadge')), 2000);
-        state = true;
+        if(precentageElement){
+            state = true;
+
+            type = "coupon"
+        }
 
     } catch(e){
 
@@ -76,12 +109,15 @@ const get_data = async (url) => {
     }
   }
 
-  return {state, title};
+  let my_url =  await get_short_link();
+
+  return {state, title, type, image_url, my_url};
 }
 
 async function scrapeTelegramLinks(state_checker, data, pre_defined_urls) {
     try {
         ///////////////////////////////
+        const {time, scrolls_by_pixel} = await get_settings_telegram();
         let savedLinks = [];
         //////////////////////////////
 
@@ -125,7 +161,7 @@ async function scrapeTelegramLinks(state_checker, data, pre_defined_urls) {
 
                 let currentHeight = await driver.executeScript('return arguments[0].scrollHeight', chatHistory);
 
-                await driver.executeScript('arguments[0].scrollTop -= 1500;', chatHistory);
+                await driver.executeScript(`arguments[0].scrollTop -= ${parseInt(scrolls_by_pixel)};`, chatHistory);
 
                 // await driver.sleep(2000);  
 
@@ -159,6 +195,7 @@ async function scrapeTelegramLinks(state_checker, data, pre_defined_urls) {
         print("Checking products discounts...", false);
         print("Please wait.", false);
 
+        let all_links = [];
         let new_link = [];
         let treated_links = 0;
         let checked_links = 0;
@@ -173,24 +210,35 @@ async function scrapeTelegramLinks(state_checker, data, pre_defined_urls) {
             let check_matching = containsKeywords(check_pric?.title, data?.keys);
 
             treated_links++;
-            print(JSON.stringify({loaded:savedLinks?.length , treated:treated_links, checked:checked_links}), false);
-            
-            if(!check_matching && check_pric?.state){
+
+            if(!check_matching && check_pric?.state && check_pric?.type !== "discount" && check_pric?.type !== "coupon"){
+
+                //publish post
+                if(check_pric?.my_url){
+                    let target_link = data?.is_my_link || data?.is_my_link === "true" ? check_pric?.image_url : link;
+                    create_post(target_link, check_pric?.my_url, check_pric?.title);
+                }
 
                 new_link.push({
                   link: link,
                   has_discount: check_pric?.state,
+                  type: check_pric?.type,
                   title: check_pric?.title
                 });
 
                 checked_links++;
-                print(JSON.stringify({loaded:savedLinks?.length , treated:treated_links, checked:checked_links}), false);
+                
             }
+
+            print(JSON.stringify({loaded:savedLinks?.length , treated:treated_links, checked:checked_links}), false);
+            print(`waiting ${time} seconds...`, false);
+
+            await sleep(time * 1000);
         }
 
         print("Saving csv files...", false);
 
-        const csvContent = "Link,has_discount,title\n" + new_link.map(item => `${item.link},${item.has_discount},${item.title}`).join("\n");
+        const csvContent = "Link,has_discount,type,title\n" + new_link.map(item => `${item.link},${item.has_discount},${item?.type},${item.title}`).join("\n");
         fs.writeFileSync('telegram_links.csv', csvContent);
 
         const linksContent = "links\n" + savedLinks.map(item => `${item}`).join("\n");
@@ -208,6 +256,7 @@ async function scrapeTelegramLinks(state_checker, data, pre_defined_urls) {
 }
 
 const main_telegram = async (socket, initor, data, links_data) => {
+
     ws = socket;
 
     if (ws !== null) {

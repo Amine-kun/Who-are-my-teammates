@@ -4,6 +4,18 @@ const users_label = document.querySelector('.users_label');
 const main_frame =  document.querySelector('.content');
 const tabs =  document.querySelectorAll('.tab');
 
+const modal = document.querySelector('.modal');
+const modain_content = document.querySelector('.modain_content');
+
+const settings_tab = document.querySelector('.settings_tab');
+const remove_icon = document.querySelector('.remove_icon');
+const save = document.querySelector('.save');
+
+const key = document.querySelector('.key');
+const group = document.querySelector('.group');
+const time = document.querySelector('.time');
+const scrolls_by_pixel = document.querySelector('.scrolls_by_pixel');
+
 let accounts_data = null ;
 let users_data = null ;
 let links_data = null;
@@ -12,9 +24,14 @@ let client  = null;
 let MESSAGE = '';
 let MESSAGE_LIMIT = '';
 
+let API_KEY = "";
+let GROUP_ID = "";
+let TIME = 1;
+
 let KEYS = "";
 let GROUP_URL = "";
 let SCROLLS = 1;
+let SCROLLS_BY_PIXEL = 1000;
 
 const print = (message, color) =>{
     const log = document.querySelector('.logger');
@@ -89,7 +106,9 @@ const clearBot = (source) =>{
 }
 
 const sendData = (key)=>{
-    print('Reading Files...','orange')
+    const my_url_check = document.querySelector('.my_url_check');
+
+    print('Reading Files...','orange');
 
     const opt = {
         headers:{
@@ -115,7 +134,12 @@ const sendData = (key)=>{
 
             print('Files are ready...');
 
-            lunchBot(key, {keys: KEYS, scrolls: SCROLLS, group_url:GROUP_URL});
+            lunchBot(key, {
+                keys: KEYS, 
+                scrolls: SCROLLS, 
+                group_url:GROUP_URL,
+                is_my_link: my_url_check?.checked
+            });
 
             return 0
         })
@@ -167,8 +191,10 @@ const update_settings = ()=>{
             },
         method: 'POST',
         body: JSON.stringify({
-          message: MESSAGE,
-          message_limit: MESSAGE_LIMIT
+          api_key: API_KEY,
+          group_id: GROUP_ID,
+          time: TIME,
+          scrolls_by_pixel:SCROLLS_BY_PIXEL
         })
     }
 
@@ -201,14 +227,15 @@ const get_settings = ()=>{
     fetch('http://localhost:4444/settings', opt)
         .then(res=>res.json())
         .then(data=>{
-            
+
             if (data === 'err_2'){
                 print('Error Getting settings, try again.')
                 return 1
             }
 
-            message.setAttribute('value', data.message)
-            number.setAttribute('value', data.message_limit)
+            key.setAttribute('value', data.api_key)
+            group.setAttribute('value', data.group_id)
+            time.setAttribute('value', data.time)
 
             return 0
         })
@@ -274,9 +301,15 @@ var show_telegram = () => {
                 </span>
             </div>
         </div>
+
         <span class="search input_text" style="width:318px">
           <input type="text"placeholder="Group url" class="search-input number scrolls url" />
         </span>
+
+        <label for="check_url" class="flex flex-row abs-center">
+            <input id="check_url" class="my_url_check" type="checkbox" value="1" name="Include my affiliate link">
+            <p class="margin_none">Include my affiliate link</p>
+        </label>
 
          <div style="margin-top:20px">
               <button class="start start_telegram">Start</button>
@@ -381,11 +414,13 @@ const init_selectors_telegram = () => {
     start_telegram.addEventListener('click', ()=>{
 
         if(links_data === null){
+            const my_url_check = document.querySelector('.my_url_check');
+            
             print('Starting script', 'blue');
             print('Please wait.', 'blue');
 
             count_view({loaded:0 , treated:0, checked:0});
-            lunchBot("telegram", {keys: KEYS, scrolls: SCROLLS, group_url:GROUP_URL});
+            lunchBot("telegram", {keys: KEYS, scrolls: SCROLLS, group_url:GROUP_URL, is_my_link: my_url_check?.checked});
         } else {
             sendData("telegram");
         }
@@ -535,22 +570,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     });
 
-    show_insta();
+    show_telegram();
 
-    const modal = document.querySelector('.modal');
-    const modain_content = document.querySelector('.modain_content');
 
-    const settings_tab = document.querySelector('.settings_tab');
-    const remove_icon = document.querySelector('.remove_icon');
-    const save = document.querySelector('.save');
-
-    const message = document.querySelector('.message');
-    const number = document.querySelector('.number');
-
-    // settings_tab.addEventListener('click',()=>{
-    //     get_settings();
-    //     modal.classList.add("modal_show");
-    // });
+    settings_tab.addEventListener('click',()=>{
+        get_settings();
+        modal.classList.add("modal_show");
+    });
 
     remove_icon.addEventListener('click',()=>{
         modal.classList.remove("modal_show");
@@ -561,15 +587,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         modal.classList.remove("modal_show");
     });
 
-    message.addEventListener('change', (e)=>{
-        MESSAGE = e.target.value;
+    key.addEventListener('change', (e)=>{
+        API_KEY = e.target.value;
     });
 
-    number.addEventListener('change', (e)=>{
-        MESSAGE_LIMIT = e.target.value;
+    group.addEventListener('change', (e)=>{
+        GROUP_ID = e.target.value;
     });
 
-    init_selectors_insta();
+    time.addEventListener('change', (e)=>{
+        TIME = e.target.value;
+    });
+
+    scrolls_by_pixel.addEventListener('change', (e)=>{
+        SCROLLS_BY_PIXEL = e.target.value;
+    });
+
+    init_selectors_telegram();
 })
 
 

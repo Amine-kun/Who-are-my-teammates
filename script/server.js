@@ -3,11 +3,13 @@ const express = require( 'express' );
 const bodyParser= require('body-parser');
 const url = require('url');
 
-const {start_driver} = require('./start_driver');
-// const {close_driver} = require('./close_driver.mjs');
+const {start_driver} = require('./functions/start_driver');
+const {get_settings_telegram, save_settings_telegram} = require('./functions/helpers');
 const {main, reset, settings} = require('./script');
 const {main_telegram} = require('./telegram_script');
 const {WebSocketServer, WebSocket} = require('ws');
+
+// const {close_driver} = require('./close_driver.mjs');
 
 const app = express();
 
@@ -35,7 +37,7 @@ const initSelenium = async (state, targeted) =>{
 		let driver = null;
 
 		if(targeted){
-			driver = await start_driver(true, true);
+			driver = await start_driver(true, false);
 		} else {
 			driver = await start_driver(false, true);
 		}
@@ -106,7 +108,7 @@ app.put('/reset_data', async(req, res)=>{
 
 app.get('/settings', async (req, res)=>{
 	try{
-		let data = await settings({status:false, message:'', message_limit:''});
+		let data = await get_settings_telegram();
 		res.json(data);
 	} catch (e){
 		console.log(e)
@@ -115,10 +117,10 @@ app.get('/settings', async (req, res)=>{
 })
 
 app.post('/settings', async (req, res)=>{
-	const {message, message_limit} = req.body;
+	// const {api_key, group_id, time} = req.body;
 
 	try{
-		let data = settings({status:true, message:message, message_limit:parseInt(message_limit)});
+		let data = await save_settings_telegram(req.body);
 		res.json('data_set');
 	} catch (e){
 		console.log(e)

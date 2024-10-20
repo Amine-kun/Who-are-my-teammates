@@ -1,6 +1,6 @@
 const {Builder, By, Key, until} = require('selenium-webdriver');
 const Process = require('process');
-const {get_chrome_path} = require('./helpers');
+const {get_chrome_path} = require('../helpers');
 
 const start_driver = async(targeted, headless) => {
 	try{
