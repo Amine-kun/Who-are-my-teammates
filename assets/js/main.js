@@ -107,6 +107,9 @@ const clearBot = (source) =>{
 
 const sendData = (key)=>{
     const my_url_check = document.querySelector('.my_url_check');
+    const walmart_check = document.querySelector('.walmart_check');
+    const amazon_check = document.querySelector('.amazon_check');
+    const post_only_check = document.querySelector('.post_only_check');
 
     print('Reading Files...','orange');
 
@@ -119,7 +122,8 @@ const sendData = (key)=>{
              accounts: accounts_data,
             users: users_data,
             source: key,
-            links_data: links_data
+            links_data: links_data,
+            is_post_only: post_only_check?.checked
         })
     }
 
@@ -138,7 +142,9 @@ const sendData = (key)=>{
                 keys: KEYS, 
                 scrolls: SCROLLS, 
                 group_url:GROUP_URL,
-                is_my_link: my_url_check?.checked
+                is_my_link: my_url_check?.checked,
+                is_amazon: amazon_check?.checked,
+                is_walmart: walmart_check?.checked
             });
 
             return 0
@@ -311,6 +317,13 @@ var show_telegram = () => {
             <p class="margin_none">Include my affiliate link</p>
         </label>
 
+        <label for="post_only" class="flex flex-row abs-center">
+            <input id="post_only" class="post_only_check" type="checkbox" value="1" name="Include my affiliate link">
+            <p class="margin_none">Post links only (no scraping)</p>
+        </label>
+
+        <!-- here options -->
+
          <div style="margin-top:20px">
               <button class="start start_telegram">Start</button>
               <button class="stop stop_telegram">Stop and save</button>
@@ -318,10 +331,21 @@ var show_telegram = () => {
 
           <button class="full_btn reset reset_telegram">Clear</button> 
 
-          <div class="logger">
+          <div class="logger" style="min-height: 180px;">
             <h3>Log</h3>
           </div>
      `
+
+    //   <div class="inputs" style="margin-bottom: 0px;">
+    //     <label for="amazon_url" class="flex flex-row abs-center abs-center-small">
+    //         <input id="amazon_url" class="amazon_check" type="checkbox" value="1" name="Amazon">
+    //         <p class="margin_none">Amazon</p>
+    //     </label>
+    //     <label for="walmart_url" class="flex flex-row abs-center abs-center-small">
+    //         <input id="walmart_url" class="walmart_check" type="checkbox" value="1" name="Walmart">
+    //         <p class="margin_none">Walmart</p>
+    //     </label>
+    // </div>
 
      return true
 }
@@ -415,12 +439,23 @@ const init_selectors_telegram = () => {
 
         if(links_data === null){
             const my_url_check = document.querySelector('.my_url_check');
+            const walmart_check = document.querySelector('.walmart_check');
+            const amazon_check = document.querySelector('.amazon_check');
+            const post_only_check = document.querySelector('.post_only_check');
             
             print('Starting script', 'blue');
             print('Please wait.', 'blue');
 
             count_view({loaded:0 , treated:0, checked:0});
-            lunchBot("telegram", {keys: KEYS, scrolls: SCROLLS, group_url:GROUP_URL, is_my_link: my_url_check?.checked});
+            lunchBot("telegram", {
+                keys: KEYS, 
+                scrolls: SCROLLS, 
+                group_url:GROUP_URL, 
+                is_my_link: my_url_check?.checked,
+                is_amazon: amazon_check?.checked,
+                is_walmart: walmart_check?.checked,
+                is_post_only: post_only_check?.checked
+            });
         } else {
             sendData("telegram");
         }

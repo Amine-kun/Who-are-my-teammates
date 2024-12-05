@@ -325,9 +325,22 @@ body{
 }
 
 .abs-center{
-   justify-content: center;
-   align-items: center
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 15px;
+    background: #13b1d99e;
+    width: 318px;
+    padding: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    gap: 15px;
+    color: white;
 }
+   
+.abs-center-small{
+   width: 139px;
+}
+
 .margin_none{
    margin:0;
 }

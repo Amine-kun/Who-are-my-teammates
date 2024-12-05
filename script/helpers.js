@@ -35,6 +35,8 @@ const get_chrome_path = async(targeted, headless) => {
 	}
 }
 
+
+
 module.exports = {
-	get_chrome_path
+	get_chrome_path,
 }
