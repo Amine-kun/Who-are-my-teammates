@@ -144,7 +144,8 @@ const sendData = (key)=>{
                 group_url:GROUP_URL,
                 is_my_link: my_url_check?.checked,
                 is_amazon: amazon_check?.checked,
-                is_walmart: walmart_check?.checked
+                is_walmart: walmart_check?.checked,
+                is_post_only: post_only_check?.checked
             });
 
             return 0

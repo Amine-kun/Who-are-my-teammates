@@ -191,7 +191,7 @@ const get_walmart_data = async (url) => {
 
 async function scrapeTelegramLinks(state_checker, data, pre_defined_urls, platform) {
     try {
-        console.log('platform', platform)
+
         ///////////////////////////////
         const {time, scrolls_by_pixel} = await get_settings_telegram();
         let savedLinks = [];
@@ -348,6 +348,8 @@ async function scrapeTelegramLinks(state_checker, data, pre_defined_urls, platfo
 }
 
 const post_only_script = async (state_checker, data, pre_defined_urls) => {
+
+    const {time} = await get_settings_telegram();
     let treated_links = 0;
     let checked_links = 0;
 
@@ -362,7 +364,7 @@ const post_only_script = async (state_checker, data, pre_defined_urls) => {
         treated_links++;
         checked_links++;
 
-        print(JSON.stringify({loaded:savedLinks?.length , treated:treated_links, checked:checked_links}), false);
+        print(JSON.stringify({loaded:pre_defined_urls?.length , treated:treated_links, checked:checked_links}), false);
         print(`waiting ${time} seconds...`, false);
 
         await sleep(time * 1000);
@@ -385,7 +387,7 @@ const main_telegram = async (socket, initor, data, links_data) => {
         if(driver === false){
                 return 0
         }
-
+        // console.log("links_data", links_data)
         if(links_data?.length > 0){
             // console.log("data", data?.is_walmart === true , data)
             // if(data?.is_amazon || data?.is_amazon === "true"){
@@ -395,7 +397,7 @@ const main_telegram = async (socket, initor, data, links_data) => {
             // if(data?.is_walmart || data?.is_walmart === "true"){
             //     await scrapeTelegramLinks(initor, data, links_data, "walmart")
             // }
-
+ 
             if(data?.is_post_only){
                 await post_only_script(initor, data, links_data)
             } else {    
